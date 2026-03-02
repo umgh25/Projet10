@@ -2,7 +2,7 @@ HELP.md
 target/
 
 # MVN
-.mvn/
+.mvn/*
 !.mvn/wrapper/
 !.mvn/wrapper/maven-wrapper.jar
 !.mvn/wrapper/maven-wrapper.properties
