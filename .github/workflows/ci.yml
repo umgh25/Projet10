@@ -44,6 +44,7 @@ jobs:
       - name: Test Frontend
         run: npm run test -- --watch=false
         working-directory: ./front
+
       - name: Upload Frontend Coverage
         uses: actions/upload-artifact@v4
         with:
