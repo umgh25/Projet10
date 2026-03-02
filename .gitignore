@@ -1,6 +1,13 @@
 HELP.md
 target/
+
+# MVN
+.mvn/
+!.mvn/wrapper/
 !.mvn/wrapper/maven-wrapper.jar
+!.mvn/wrapper/maven-wrapper.properties
+!.mvn/wrapper/MavenWrapperDownloader.java
+
 !**/src/main/**/target/
 !**/src/test/**/target/
 node_modules/
@@ -34,8 +41,5 @@ build/
 
 ### VS Code ###
 .vscode/
-
-### JAVA ###
-.mvn
 
 .angular

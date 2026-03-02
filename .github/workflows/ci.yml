@@ -12,11 +12,14 @@ jobs:
         with:
           java-version: '11'
           distribution: 'temurin'
-      - name: Install Maven
-        run: sudo apt-get update && sudo apt-get install -y maven
-      - name: Build and Test Backend
-        run: mvn clean install
+      - name: Build and test backend
+        run: ./mvnw clean install
         working-directory: ./back
+      - name: Upload JaCoCo coverage report
+        uses: actions/upload-artifact@v4
+        with:
+          name: backend-jacoco-report
+          path: back/target/site/jacoco/
 
   frontend:
     runs-on: ubuntu-latest
@@ -41,3 +44,8 @@ jobs:
       - name: Test Frontend
         run: npm run test -- --watch=false
         working-directory: ./front
+      - name: Upload Frontend Coverage
+        uses: actions/upload-artifact@v4
+        with:
+          name: frontend-coverage
+          path: front/coverage/bobapp/
