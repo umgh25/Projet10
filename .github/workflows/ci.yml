@@ -20,7 +20,7 @@ jobs:
         if: success() || failure()
         with:
           name: JUnit Tests (Backend)
-          path: back/target/site/jacoco/jacoco.xml
+          path: back/target/surefire-reports/TEST-*.xml
           reporter: java-junit
       - name: Upload JaCoCo coverage report
         uses: actions/upload-artifact@v4
@@ -51,13 +51,6 @@ jobs:
       - name: Test Frontend
         run: npm run test:prod
         working-directory: ./front
-      - name: Test Report (Frontend)
-        uses: phoenix-actions/test-reporting@v8
-        if: success() || failure()
-        with:
-          name: Jasmine/Karma Tests (Frontend)
-          path: front/coverage/junit.xml
-          reporter: java-junit
       - name: Upload Frontend Coverage
         uses: actions/upload-artifact@v4
         with:
