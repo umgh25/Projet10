@@ -7,14 +7,34 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+
       - name: Set up JDK 11
         uses: actions/setup-java@v4
         with:
           java-version: '11'
           distribution: 'temurin'
+
+      - name: Cache Maven packages
+        uses: actions/cache@v4
+        with:
+          path: ~/.m2/repository
+          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+          restore-keys: |
+            ${{ runner.os }}-maven- 
+
       - name: Build and test backend
         run: ./mvnw clean install
         working-directory: ./back
+
+      - name: Test Report (JUnit)
+        uses: dorny/test-reporter@v2
+        if: ${{ !cancelled() }}
+        with:
+          name: 'JUnit Tests (Backend)'
+          path: back/target/surefire-reports/TEST-*.xml
+          reporter: java-junit
+          only-summary: 'false'
+
       - name: Upload JaCoCo coverage report
         uses: actions/upload-artifact@v4
         with:
@@ -25,27 +45,51 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '18'
+
+      - name: Cache npm modules
+        uses: actions/cache@v4
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+
       - name: Install dependencies
-        run: npm install
+        run: npm ci
         working-directory: ./front
+
+      - name: Install Chrome
+        run: |
+          if ! command -v google-chrome; then
+            sudo apt-get update
+            sudo apt-get install -y wget
+            wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+            sudo apt install -y ./google-chrome-stable_current_amd64.deb
+          fi
+
       - name: Build Frontend
         run: npm run build
         working-directory: ./front
-      - name: Install Chrome
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y wget
-          wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
-          sudo apt install -y ./google-chrome-stable_current_amd64.deb
+
       - name: Test Frontend
-        run: npm run test -- --watch=false
+        run: npm run test:prod
         working-directory: ./front
 
+      - name: Test Report (Karma/JUnit)
+        uses: dorny/test-reporter@v2
+        if: ${{ !cancelled() }}
+        with:
+          name: 'Karma Tests (Frontend)'
+          path: front/coverage/junit.xml
+          reporter: java-junit
+
       - name: Upload Frontend Coverage
+        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: frontend-coverage
