@@ -15,6 +15,13 @@ jobs:
       - name: Build and test backend
         run: ./mvnw clean install
         working-directory: ./back
+      - name: Test Report (Backend)
+        uses: phoenix-actions/test-reporting@v8
+        if: success() || failure()
+        with:
+          name: JUnit Tests (Backend)
+          path: back/target/site/jacoco/jacoco.xml
+          reporter: java-junit
       - name: Upload JaCoCo coverage report
         uses: actions/upload-artifact@v4
         with:
@@ -42,9 +49,15 @@ jobs:
           wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
           sudo apt install -y ./google-chrome-stable_current_amd64.deb
       - name: Test Frontend
-        run: npm run test -- --watch=false
+        run: npm run test:prod
         working-directory: ./front
-
+      - name: Test Report (Frontend)
+        uses: phoenix-actions/test-reporting@v8
+        if: success() || failure()
+        with:
+          name: Jasmine/Karma Tests (Frontend)
+          path: front/coverage/junit.xml
+          reporter: java-junit
       - name: Upload Frontend Coverage
         uses: actions/upload-artifact@v4
         with:
