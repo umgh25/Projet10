@@ -105,14 +105,7 @@ jobs:
         run: npm install -g sonarqube-scanner
 
       - name: Analyse SonarCloud Frontend
-        run: |
-          sonar-scanner \
-            -Dsonar.projectKey=umgh25_projet10-frontend \
-            -Dsonar.organization=umgh25 \
-            -Dsonar.sources=src \
-            -Dsonar.tests=src \
-            -Dsonar.test.inclusions=**/*.spec.ts \
-            -Dsonar.host.url=https://sonarcloud.io
+        run: sonar-scanner
         working-directory: ./front
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
