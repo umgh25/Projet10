@@ -42,7 +42,7 @@ jobs:
           path: back/target/site/jacoco/
 
       - name: Analyse SonarCloud
-        run: ./mvnw sonar:sonar -Dsonar.projectKey=umgh25_Projet10-backend -Dsonar.organization=umgh25 -Dsonar.host.url=https://sonarcloud.io
+        run: ./mvnw sonar:sonar -Dsonar.projectKey=umgh25_projet10-backend -Dsonar.organization=umgh25 -Dsonar.host.url=https://sonarcloud.io
         working-directory: ./back
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
@@ -107,7 +107,7 @@ jobs:
       - name: Analyse SonarCloud Frontend
         run: |
           sonar-scanner \
-            -Dsonar.projectKey=umgh25_Projet10-frontend \
+            -Dsonar.projectKey=umgh25_projet10-frontend \
             -Dsonar.organization=umgh25 \
             -Dsonar.sources=src \
             -Dsonar.tests=src \
