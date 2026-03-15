@@ -13,6 +13,7 @@ target/
 node_modules/
 dist/
 coverage/
+!coverage/bobapp/lcov.info
 
 ### STS ###
 .apt_generated
@@ -43,3 +44,4 @@ build/
 .vscode/
 
 .angular
+.scannerwork
