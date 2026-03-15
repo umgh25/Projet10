@@ -13,7 +13,6 @@ target/
 node_modules/
 dist/
 coverage/
-!coverage/bobapp/lcov.info
 
 ### STS ###
 .apt_generated

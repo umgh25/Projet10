@@ -82,8 +82,8 @@ jobs:
         run: npm run build
         working-directory: ./front
 
-      - name: Test Frontend
-        run: npm run test:prod
+      - name: Run tests with coverage
+        run: npm run test -- --code-coverage --watch=false
         working-directory: ./front
 
       - name: Test Report (Karma/JUnit)
