@@ -82,8 +82,8 @@ jobs:
         run: npm run build
         working-directory: ./front
 
-      - name: Run tests with coverage
-        run: npm run test -- --code-coverage --watch=false
+      - name: Test Frontend
+        run: npm run test:prod
         working-directory: ./front
 
       - name: Test Report (Karma/JUnit)
@@ -105,8 +105,10 @@ jobs:
         run: npm install -g sonarqube-scanner
 
       - name: Analyse SonarCloud Frontend
-        run: sonar-scanner -Dsonar.token=${{ secrets.SONAR_TOKEN }}
+        run: sonar-scanner
         working-directory: ./front
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
   dockerhub:
     runs-on: ubuntu-latest
