@@ -125,10 +125,10 @@ jobs:
   dockerhub:
     needs: [backend, frontend]
     if: |
-      always() && (
-        needs.backend.result == 'success' ||
-        needs.frontend.result == 'success'
-      )
+      always() &&
+      (needs.backend.result == 'success' || needs.backend.result == 'skipped') &&
+      (needs.frontend.result == 'success' || needs.frontend.result == 'skipped') &&
+      (needs.backend.result == 'success' || needs.frontend.result == 'success')
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
