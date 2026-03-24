@@ -8,6 +8,7 @@ class BobappApplicationTests {
 
 	@Test
 	void contextLoads() {
+		assertions.assertequals(1, 0);
 	}
 
 }
