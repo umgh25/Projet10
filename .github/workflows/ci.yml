@@ -157,3 +157,4 @@ jobs:
           tags: ${{ secrets.DOCKER_HUB_USERNAME }}/bobapp-frontend:latest
           cache-from: type=registry,ref=${{ secrets.DOCKER_HUB_USERNAME }}/bobapp-frontend:latest
           cache-to: type=inline
+
